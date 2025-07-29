@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "deploy": "vite build && vk-miniapps-deploy",
     "tunnel": "vk-tunnel --no-open --port=5173",
-    "dev:full": "concurrently \"npm run dev\" \"npm run tunnel\""
+    "dev:full": "concurrently \"npm run dev\" \"npm run tunnel\"",
+    "vercel-build": "npm ci && npm run build"
   },
   "dependencies": {
     "@vkontakte/icons": "^3.1.1",
