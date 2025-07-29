@@ -6,12 +6,22 @@ import {
   View,
   ScreenSpinner,
 } from '@vkontakte/vkui';
-import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router';
 
-import Home from './pages/Home';
+import {
+  RouterProvider,
+  useActiveVkuiLocation,
+} from '@vkontakte/vk-mini-apps-router';
+
+import { router } from './routes';
 import { DEFAULT_VIEW_PANELS } from './routes';
 
-export const App = () => {
+import Home from './pages/Home';
+import Menu from './pages/Menu';
+import News from './pages/News';
+import Profile from './pages/Profile';
+import Promos from './pages/Promos';
+
+export const AppContent = () => {
   const { panel: activePanel = DEFAULT_VIEW_PANELS.HOME } = useActiveVkuiLocation();
   const [fetchedUser, setUser] = useState();
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
@@ -34,9 +44,19 @@ export const App = () => {
     <SplitLayout popout={popout}>
       <SplitCol>
         <View activePanel={activePanel}>
-          <Home id="home" fetchedUser={fetchedUser} />
+          <Home id={DEFAULT_VIEW_PANELS.HOME} fetchedUser={fetchedUser} />
+          <Menu id={DEFAULT_VIEW_PANELS.MENU} />
+          <News id={DEFAULT_VIEW_PANELS.NEWS} />
+          <Profile id={DEFAULT_VIEW_PANELS.PROFILE} />
+          <Promos id={DEFAULT_VIEW_PANELS.PROMOS} />
         </View>
       </SplitCol>
     </SplitLayout>
   );
 };
+
+export const App = () => (
+  <RouterProvider router={router}>
+    <AppContent />
+  </RouterProvider>
+);
