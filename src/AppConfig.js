@@ -6,8 +6,8 @@ import '@vkontakte/vkui/dist/vkui.css';
 
 import { transformVKBridgeAdaptivity } from './utils';
 import { router } from './routes';
-import { App } from './App';
 
+import App from './App'; // ✅ правильный импорт default-экспорта
 export const AppConfig = () => {
   const vkBridgeAppearance = useAppearance() || undefined;
   const vkBridgeInsets = useInsets() || undefined;
