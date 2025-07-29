@@ -1,3 +1,4 @@
+import BottomNavigation from './components/BottomNavigation';
 import { useState, useEffect } from 'react';
 import bridge from '@vkontakte/vk-bridge';
 import {
@@ -43,14 +44,15 @@ export const AppContent = () => {
   return (
     <SplitLayout popout={popout}>
       <SplitCol>
-        <View activePanel={activePanel}>
-          <Home id={DEFAULT_VIEW_PANELS.HOME} fetchedUser={fetchedUser} />
-          <Menu id={DEFAULT_VIEW_PANELS.MENU} />
-          <News id={DEFAULT_VIEW_PANELS.NEWS} />
-          <Profile id={DEFAULT_VIEW_PANELS.PROFILE} />
-          <Promos id={DEFAULT_VIEW_PANELS.PROMOS} />
-        </View>
-      </SplitCol>
+    <View activePanel={activePanel}>
+      <Home id={DEFAULT_VIEW_PANELS.HOME} fetchedUser={fetchedUser} />
+      <Menu id={DEFAULT_VIEW_PANELS.MENU} />
+      <News id={DEFAULT_VIEW_PANELS.NEWS} />
+      <Profile id={DEFAULT_VIEW_PANELS.PROFILE} />
+      <Promos id={DEFAULT_VIEW_PANELS.PROMOS} />
+    </View>
+    <BottomNavigation />
+</SplitCol>
     </SplitLayout>
   );
 };
