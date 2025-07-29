@@ -6,8 +6,4 @@ import { App } from '../App'; // или без фигурных скобок, е
 import { router } from '../routes';
 
 const root = createRoot(document.getElementById('root'));
-root.render(
-  <RouterProvider router={router}>
-    <App />
-  </RouterProvider>
-);
+
