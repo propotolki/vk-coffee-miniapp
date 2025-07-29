@@ -56,7 +56,7 @@ export const AppContent = () => {
     </SplitLayout>
   );
 };
-
+export default App;
 export const App = () => (
   <RouterProvider router={router}>
     <AppContent />
