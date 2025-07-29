@@ -1,46 +1,95 @@
-// src/App.js
+import {
+  View,
+  SplitLayout,
+  SplitCol,
+  ScreenSpinner,
+  Tabbar,
+  TabbarItem,
+} from '@vkontakte/vkui';
 
-import { useState, useEffect } from 'react';
-import bridge from '@vkontakte/vk-bridge';
-import { View, SplitLayout, SplitCol } from '@vkontakte/vkui';
-import { useActiveVkuiLocation } from '@vkontakte/vk-mini-apps-router';
+import {
+  Icon28HomeOutline,
+  Icon28ShoppingOutline,
+  Icon28GiftOutline,
+  Icon28NewsfeedOutline,
+  Icon28UserCircleOutline,
+} from '@vkontakte/icons';
 
 import Home from './pages/Home';
-import SplashScreen from './components/SplashScreen';
-import { DEFAULT_VIEW_PANELS } from './routes';
+// Пока у нас есть только Home, позже добавим Menu, Акции, Новости, Профиль
 
 const App = () => {
-  const { panel: activePanel = DEFAULT_VIEW_PANELS.HOME } = useActiveVkuiLocation();
+  const { panel = 'home' } = useActiveVkuiLocation();
+  const [activePanel, setActivePanel] = useState('home');
   const [fetchedUser, setFetchedUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchData() {
       try {
         const user = await bridge.send('VKWebAppGetUserInfo');
         setFetchedUser(user);
-      } catch (err) {
-        console.error('Ошибка получения данных пользователя:', err);
+      } catch (e) {
+        console.error(e);
       } finally {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1500); // Задержка для красивого отображения splash (по желанию)
+        setPopout(null);
       }
-    };
+    }
 
     fetchData();
   }, []);
 
-  if (isLoading) {
-    return <SplashScreen />;
-  }
-
   return (
-    <SplitLayout>
+    <SplitLayout popout={popout}>
       <SplitCol>
         <View activePanel={activePanel}>
           <Home id="home" fetchedUser={fetchedUser} />
+          {/* Добавим позже:
+            <Menu id="menu" />
+            <Promos id="promos" />
+            <News id="news" />
+            <Profile id="profile" />
+          */}
         </View>
+
+        {/* Нижняя навигация */}
+        <Tabbar>
+          <TabbarItem
+            text="Главная"
+            selected={activePanel === 'home'}
+            onClick={() => setActivePanel('home')}
+          >
+            <Icon28HomeOutline />
+          </TabbarItem>
+          <TabbarItem
+            text="Меню"
+            selected={activePanel === 'menu'}
+            onClick={() => setActivePanel('menu')}
+          >
+            <Icon28ShoppingOutline />
+          </TabbarItem>
+          <TabbarItem
+            text="Акции"
+            selected={activePanel === 'promos'}
+            onClick={() => setActivePanel('promos')}
+          >
+            <Icon28GiftOutline />
+          </TabbarItem>
+          <TabbarItem
+            text="Новости"
+            selected={activePanel === 'news'}
+            onClick={() => setActivePanel('news')}
+          >
+            <Icon28NewsfeedOutline />
+          </TabbarItem>
+          <TabbarItem
+            text="Профиль"
+            selected={activePanel === 'profile'}
+            onClick={() => setActivePanel('profile')}
+          >
+            <Icon28UserCircleOutline />
+          </TabbarItem>
+        </Tabbar>
       </SplitCol>
     </SplitLayout>
   );
